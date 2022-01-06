@@ -14,10 +14,5 @@ namespace eAuditoria.Data
 
         public DbSet<Filme> Filme { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //optionsBuilder.UseSqlServer("server=localhost; database=eAuditoria; uid=thiago; pwd=palmeiras51; port=3306");
-            //optionsBuilder.UseSqlServer("Integrated Security=SSPI;Persist Security Info=False;User ID=thiago;Password=palmeiras51;Initial Catalog=eAuditoria;Data Source=127.0.0.1/3306");
-        }
     }
 }

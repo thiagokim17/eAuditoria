@@ -59,3 +59,4 @@ C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditori
 C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\obj\Debug\net6.0\eAuditoria.genruntimeconfig.cache
 C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\bin\Debug\net6.0\MySqlConnector.dll
 C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\obj\Debug\net6.0\eAuditoria.csproj.AssemblyReference.cache
