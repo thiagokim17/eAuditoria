@@ -17,14 +17,35 @@ namespace eAuditoria.Controllers
     {
 
         [HttpGet]
-        public async Task<ActionResult<List<Locacao>>> GetList([FromServices] DataContext context)
+        public async Task<ActionResult<List<LocacaoModelView>>> GetList([FromServices] DataContext context)
         {
-            var usuarios = await context.Locacao
+            var locacoes = await context.Locacao
                                 .AsNoTracking()
                                 .ToListAsync();
 
 
-            return usuarios;
+            return locacoes.Select(locacao => new LocacaoModelView()
+            {
+                Id = locacao.Id,
+                IdCliente = context.Cliente
+                        .AsNoTracking()
+                        .FirstOrDefault(x => x.Id == locacao.Id_Cliente).Id,
+
+                NomeCliente = context.Cliente
+                        .AsNoTracking()
+                        .FirstOrDefault(x => x.Id == locacao.Id_Cliente).Nome,
+
+                IdFilme = context.Filme
+                        .AsNoTracking()
+                        .FirstOrDefault(x => x.Id == locacao.Id_Filme).Id,
+
+                TituloFilme = context.Filme
+                        .AsNoTracking()
+                        .FirstOrDefault(x => x.Id == locacao.Id_Filme).Tituto,
+
+                DataDevolucao = locacao.DataDevolucao.HasValue ? locacao.DataDevolucao.Value.ToString("dd/MM/yyyy") : String.Empty,
+                DataLocacao = locacao.DataLocacao.ToString("dd/MM/yyyy"),
+            }).ToList();
         }
 
         [HttpGet("{id}")]
@@ -42,10 +63,24 @@ namespace eAuditoria.Controllers
             return new LocacaoModelView()
             {
                 Id = locacao.Id,
-                Id_Cliente = locacao.Id_Cliente,
-                Id_Filme = locacao.Id_Filme,
-                DataDevolucao = locacao.DataDevolucao,
-                DataLocacao = locacao.DataLocacao
+
+                IdCliente = context.Cliente
+                        .AsNoTracking().FirstOrDefault(x => x.Id == locacao.Id_Cliente).Id,
+
+                NomeCliente = context.Cliente
+                        .AsNoTracking()
+                        .FirstOrDefault(x => x.Id == locacao.Id_Cliente).Nome,
+
+                IdFilme = context.Filme
+                        .AsNoTracking()
+                        .FirstOrDefault(x => x.Id == locacao.Id_Filme).Id,
+
+                TituloFilme = context.Filme
+                        .AsNoTracking()
+                        .FirstOrDefault(x => x.Id == locacao.Id_Filme).Tituto,
+
+                DataDevolucao = locacao.DataDevolucao.HasValue ? locacao.DataDevolucao.Value.ToString("dd/MM/yyyy") : String.Empty,
+                DataLocacao = locacao.DataLocacao.ToString("dd/MM/yyyy"),
             };
         }
 
@@ -57,10 +92,30 @@ namespace eAuditoria.Controllers
             {
                 Locacao locacao = new Locacao();
                 locacao.Id = locacaoModel.Id;
-                locacao.Id_Cliente = locacaoModel.Id_Cliente;
-                locacao.Id_Filme = locacaoModel.Id_Filme;
-                locacao.DataDevolucao = locacaoModel.DataDevolucao;
-                locacao.DataLocacao = locacaoModel.DataLocacao;
+                locacao.Id_Cliente = locacaoModel.IdCliente;
+                locacao.Id_Filme = locacaoModel.IdFilme;
+
+
+                if (!string.IsNullOrEmpty(locacaoModel.DataLocacao))
+                {
+                    var dataLocacaoSplit = locacaoModel.DataLocacao.Split('/');
+                    locacao.DataLocacao = new DateTime(Convert.ToInt32(dataLocacaoSplit[2]), Convert.ToInt32(dataLocacaoSplit[1]), Convert.ToInt32(dataLocacaoSplit[0]));
+                }
+                else
+                {
+                    locacao.DataLocacao = System.DateTime.Now;
+                }
+
+                if (!string.IsNullOrEmpty(locacaoModel.DataDevolucao))
+                {
+                    var dataDevolucaoSplit = locacaoModel.DataDevolucao.Split('/');
+                    locacao.DataDevolucao = new DateTime(Convert.ToInt32(dataDevolucaoSplit[2]), Convert.ToInt32(dataDevolucaoSplit[1]), Convert.ToInt32(dataDevolucaoSplit[0]));
+                }
+                else
+                {
+                    locacao.DataDevolucao = null;
+                }
+
 
                 context.Locacao.Add(locacao);
                 await context.SaveChangesAsync();
@@ -88,10 +143,28 @@ namespace eAuditoria.Controllers
                     return NotFound();
                 }
 
-                locacao.Id_Cliente = locacaoModel.Id_Cliente;
-                locacao.Id_Filme = locacaoModel.Id_Filme;
-                locacao.DataDevolucao = locacaoModel.DataDevolucao;
-                locacao.DataLocacao = locacaoModel.DataLocacao;
+                locacao.Id_Cliente = locacaoModel.IdCliente;
+                locacao.Id_Filme = locacaoModel.IdFilme;
+
+                if (!string.IsNullOrEmpty(locacaoModel.DataLocacao))
+                {
+                    var dataLocacaoSplit = locacaoModel.DataLocacao.Split('/');
+                    locacao.DataLocacao = new DateTime(Convert.ToInt32(dataLocacaoSplit[2]), Convert.ToInt32(dataLocacaoSplit[1]), Convert.ToInt32(dataLocacaoSplit[0]));
+                }
+                else
+                {
+                    locacao.DataLocacao = System.DateTime.Now;
+                }
+
+                if (!string.IsNullOrEmpty(locacaoModel.DataDevolucao))
+                {
+                    var dataDevolucaoSplit = locacaoModel.DataDevolucao.Split('/');
+                    locacao.DataDevolucao = new DateTime(Convert.ToInt32(dataDevolucaoSplit[2]), Convert.ToInt32(dataDevolucaoSplit[1]), Convert.ToInt32(dataDevolucaoSplit[0]));
+                }
+                else
+                {
+                    locacao.DataDevolucao = null;
+                }
 
                 context.Locacao.Update(locacao);
                 await context.SaveChangesAsync();

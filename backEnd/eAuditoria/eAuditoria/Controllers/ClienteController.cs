@@ -13,18 +13,26 @@ namespace eAuditoria.Controllers
 
     [ApiController]
 
-    public class UsuarioController : ControllerBase
+    public class ClienteController : ControllerBase
     {
 
         [HttpGet]
-        public async Task<ActionResult<List<Cliente>>> GetList([FromServices] DataContext context)
+        public async Task<ActionResult<List<ClienteModelView>>> GetList([FromServices] DataContext context)
         {
-            var usuarios = await context.Cliente
+            var cliente = await context.Cliente
                                 .AsNoTracking()
                                 .ToListAsync();
 
 
-            return usuarios;
+
+
+            return cliente.Select(cliente => new ClienteModelView()
+            {
+                Id = cliente.Id,
+                Cpf = cliente.Cpf,
+                DataNascimento = cliente.DataNascimento.ToString("dd/MM/yyyy"),
+                Nome = cliente.Nome
+            }).ToList();
         }
 
         [HttpGet("{id}")]
@@ -43,7 +51,7 @@ namespace eAuditoria.Controllers
             {
                 Id = cliente.Id,
                 Cpf = cliente.Cpf,
-                DataNascimento = cliente.DataNascimento,
+                DataNascimento = cliente.DataNascimento.ToString("dd/MM/yyyy"),
                 Nome = cliente.Nome
             };
         }
@@ -57,7 +65,9 @@ namespace eAuditoria.Controllers
                 Cliente cliente = new Cliente();
                 cliente.Id = clienteModel.Id;
                 cliente.Cpf = clienteModel.Cpf;
-                cliente.DataNascimento = clienteModel.DataNascimento;
+
+                var clienteSplit = clienteModel.DataNascimento.Split('/');
+                cliente.DataNascimento = new DateTime(Convert.ToInt32(clienteSplit[2]), Convert.ToInt32(clienteSplit[1]), Convert.ToInt32(clienteSplit[0]));
                 cliente.Nome = clienteModel.Nome;
 
                 context.Cliente.Add(cliente);
@@ -87,7 +97,8 @@ namespace eAuditoria.Controllers
                 }
 
                 cliente.Cpf = clienteModel.Cpf;
-                cliente.DataNascimento = clienteModel.DataNascimento;
+                var clienteSplit = clienteModel.DataNascimento.Split('/');
+                cliente.DataNascimento = new DateTime(Convert.ToInt32(clienteSplit[2]), Convert.ToInt32(clienteSplit[1]), Convert.ToInt32(clienteSplit[0]));
                 cliente.Nome = clienteModel.Nome;
 
                 context.Cliente.Update(cliente);

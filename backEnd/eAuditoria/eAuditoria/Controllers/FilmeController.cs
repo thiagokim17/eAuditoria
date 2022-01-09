@@ -3,6 +3,7 @@ using eAuditoria.Data.Repository.ModelEntity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using eAuditoria.Models;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -120,6 +121,57 @@ namespace APIPontoVirgula.Controllers
                 await context.SaveChangesAsync();
                 return Ok(true);
 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadFile([FromServices] DataContext context, IFormFile file)
+        {
+            try
+            {
+
+                using (var stream = new MemoryStream())
+                {
+                    await file.CopyToAsync(stream);
+
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets.FirstOrDefault();
+
+                        int colCount = worksheet.Dimension.End.Column;
+
+                        int rowCount = worksheet.Dimension.End.Row;
+
+                        for (int row = 1; row < rowCount; row++)
+                        {
+
+                            if (!int.TryParse(worksheet.Cells[row, 1].Value.ToString(), out int id))
+                            {
+                                continue;
+                            }
+
+
+                            Filme filme = new Filme();
+                            filme.Id = Convert.ToInt32(worksheet.Cells[row, 1].Value);
+                            filme.Tituto = worksheet.Cells[row, 2].Value.ToString();
+                            filme.Lancamento = Convert.ToInt16(worksheet.Cells[row, 3].Value);
+                            filme.ClassificacaoIndicativa = Convert.ToInt32(worksheet.Cells[row, 4].Value);
+
+                            context.Filme.Add(filme);
+                        }
+
+                        await context.SaveChangesAsync();
+
+                    }
+                }
+
+                return Ok(true);
             }
             catch (Exception ex)
             {

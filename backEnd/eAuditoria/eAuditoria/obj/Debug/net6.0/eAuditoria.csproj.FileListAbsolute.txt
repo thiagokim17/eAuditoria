@@ -60,3 +60,12 @@ C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditori
 C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\bin\Debug\net6.0\MySqlConnector.dll
 C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\obj\Debug\net6.0\eAuditoria.csproj.AssemblyReference.cache
+C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\bin\Debug\net6.0\EPPlus.dll
+C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\bin\Debug\net6.0\System.Xml.XPath.XmlDocument.dll
+C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\bin\Debug\net6.0\System.Web.Cors.dll
+C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\bin\Debug\net6.0\System.Net.Http.Formatting.dll
+C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\bin\Debug\net6.0\System.Web.Http.dll
+C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\bin\Debug\net6.0\System.Web.Http.Cors.dll
+C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\Dell\OneDrive\Área de Trabalho\eAuditoria\backEnd\eAuditoria\eAuditoria\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
